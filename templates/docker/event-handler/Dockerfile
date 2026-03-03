@@ -11,8 +11,7 @@ RUN npm install -g pm2
 
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm install --omit=dev && \
-    npm install --no-save thepopebot@$(node -p "require('./package.json').version")
+RUN npm install --omit=dev
 
 COPY docker/event-handler/ecosystem.config.cjs /opt/ecosystem.config.cjs
 
