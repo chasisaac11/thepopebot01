@@ -723,6 +723,22 @@ async function main() {
   // ─── Step 6: Build ──────────────────────────────────────────────────
   clack.log.step(`[${++currentStep}/${TOTAL_STEPS}] Build`);
 
+  // Ensure dependencies are installed before building
+  const installSpinner = clack.spinner();
+  installSpinner.start('Checking dependencies...');
+  try {
+    execSync('npm install', { stdio: 'pipe' });
+    installSpinner.stop('Dependencies ready');
+  } catch {
+    installSpinner.stop('Dependency install failed');
+    clack.log.error(
+      'Could not install dependencies.\n' +
+      '  Try running manually:\n\n' +
+      '    npm install'
+    );
+    process.exit(1);
+  }
+
   // Helper: run build with retry on failure
   async function runBuildWithRetry() {
     for (let attempt = 1; attempt <= 2; attempt++) {
