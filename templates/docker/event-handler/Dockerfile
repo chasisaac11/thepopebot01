@@ -14,7 +14,7 @@ COPY package.json package-lock.json* ./
 RUN npm install --omit=dev && \
     npm install --no-save thepopebot@$(node -p "require('./package.json').version")
 
-COPY /templates/docker/event-handler/ecosystem.config.cjs /opt/ecosystem.config.cjs
+COPY docker/event-handler/ecosystem.config.cjs /opt/ecosystem.config.cjs
 
 EXPOSE 80
 CMD ["pm2-runtime", "/opt/ecosystem.config.cjs"]
